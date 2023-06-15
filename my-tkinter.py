@@ -4,6 +4,7 @@ import openai
 
 def function_name(event=None):
     
+    # 環境変数からapikeyを取得
     openai.api_key = os.environ.get('YOUR_OPENAI_API_KEY')
     send_message = text_area_request.get("1.0", tk.END)
 
