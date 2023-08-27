@@ -2,21 +2,24 @@ import os
 import tkinter as tk
 import openai
 
+message_all = []
+
 def function_name(event=None):
     
     # 環境変数からapikeyを取得
     openai.api_key = os.environ.get('YOUR_OPENAI_API_KEY')
     send_message = text_area_request.get("1.0", tk.END)
+    message_all.append({"role":"user","content":send_message});
 
     response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            max_tokens = 4000,
-            messages=[
-                {"role": "user", "content": send_message}
-        ],
+            model = "gpt-3.5-turbo",
+            max_tokens = 500,
+            messages = message_all
     )
 
     response_message = response.choices[0]["message"]["content"].strip()
+    message_all.append({"role":"assistant","content":response_message})
+    print(message_all)
     text_area_response.insert(tk.END, response_message + "\n")
 
 # Tkinterウィンドウを作成
